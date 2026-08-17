@@ -81,6 +81,8 @@
     input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:16px;width:16px;border-radius:50%;background:var(--text);cursor:pointer;margin-top:-6px;box-shadow:0 0 10px rgba(255,255,255,0.2)}
     input[type=range]::-webkit-slider-runnable-track{width:100%;height:4px;cursor:pointer;background:rgba(255,255,255,0.1);border-radius:2px}
     input[type=range]:focus{outline:none}
+    @keyframes pulseGlow{0%{box-shadow:0 0 0 0 rgba(0,255,136,0.4)}70%{box-shadow:0 0 0 10px rgba(0,255,136,0)}100%{box-shadow:0 0 0 0 rgba(0,255,136,0)}}
+    .switch-pulse{animation:pulseGlow 2s infinite;border-radius:24px}
     footer{margin-top:36px;padding-top:20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:.72rem;color:var(--muted);flex-wrap:wrap;gap:8px}
     .footer-chips{display:flex;gap:8px}
     .chip{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:.68rem;font-family:var(--font-head);font-weight:500}
@@ -101,6 +103,15 @@
       <span id="clock">00:00:00</span>
     </div>
   </header>
+
+  <div class="banner-info" style="background: linear-gradient(90deg, rgba(83, 82, 237, 0.15) 0%, rgba(0, 255, 136, 0.05) 100%); border: 1px solid rgba(83, 82, 237, 0.3); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; backdrop-filter: blur(4px);">
+    <div style="font-size: 1.5rem; background: rgba(83,82,237,0.2); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 0 15px rgba(83,82,237,0.4);">✨</div>
+    <div>
+      <div style="font-weight: 700; color: #fff; margin-bottom: 4px; font-family: var(--font-head); letter-spacing: 0.5px;">Auto Simulation Active</div>
+      <div style="font-size: 0.85rem; color: var(--muted); line-height: 1.5;">Welcome! This dashboard is currently running in <strong>Auto Mode</strong>, simulating real-time ultrasonic sensor data. Want to take control? Toggle the switch to <strong style="color:var(--green)">Manual</strong> in the System Controls panel to interact with the physics simulator!</div>
+    </div>
+  </div>
+
   <div id="alert-banner" role="alert">
     <span style="font-size:1.4rem">&#128680;</span>
     <span>BIN IS FULL &#8212; Please empty the dustbin immediately!</span>
@@ -221,7 +232,7 @@
       <div class="controls-title" style="margin-bottom:0;">System Controls</div>
       <div style="display:flex; align-items:center; gap:12px;">
          <span style="font-size:0.8rem; color:var(--muted)">Auto Sim</span>
-         <label class="switch">
+         <label class="switch switch-pulse" id="sim-toggle-wrap">
            <input type="checkbox" id="sim-toggle" onchange="toggleSimMode(this.checked)">
            <span class="slider round"></span>
          </label>
@@ -322,6 +333,8 @@ window._manualMode = false;
 function toggleSimMode(isManual){
   window._manualMode=isManual;
   document.getElementById('manual-sliders').style.display=isManual?'block':'none';
+  if(isManual) document.getElementById('sim-toggle-wrap').classList.remove('switch-pulse');
+  else document.getElementById('sim-toggle-wrap').classList.add('switch-pulse');
   if(!isManual)state.manualLid=null;
 }
 function manualHand(val){
