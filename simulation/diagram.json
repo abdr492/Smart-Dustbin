@@ -1,0 +1,52 @@
+﻿{
+  "version": 1,
+  "author": "Smart Dustbin - FIXED",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-v1", "id": "esp", "top": 100, "left": 180, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "sensor_hand", "top": 0, "left": 0, "attrs": { "label": "HAND" } },
+    { "type": "wokwi-hc-sr04", "id": "sensor_bin",  "top": 0, "left": 200, "attrs": { "label": "BIN" } },
+    { "type": "wokwi-servo",   "id": "servo",        "top": 220, "left": -60, "attrs": {} },
+    { "type": "wokwi-buzzer",  "id": "buzzer",       "top": 320, "left": 180, "attrs": { "volume": "0.5" } },
+    { "type": "wokwi-led",     "id": "led_green",    "top": 340, "left": 280, "attrs": { "color": "green" } },
+    { "type": "wokwi-led",     "id": "led_red",      "top": 340, "left": 340, "attrs": { "color": "red" } },
+    { "type": "wokwi-lcd1602", "id": "lcd",          "top": -20, "left": 420, "attrs": { "pins": "i2c", "address": "0x27" } },
+    { "type": "wokwi-resistor","id": "r1",           "top": 390, "left": 280, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor","id": "r2",           "top": 390, "left": 340, "attrs": { "value": "220" } }
+  ],
+  "connections": [
+    [ "esp:TX0",  "$serialMonitor:RX", "",      [] ],
+    [ "esp:RX0",  "$serialMonitor:TX", "",      [] ],
+
+    [ "sensor_hand:VCC",  "esp:5V",   "red",    [] ],
+    [ "sensor_hand:GND",  "esp:GND",  "black",  [] ],
+    [ "sensor_hand:TRIG", "esp:D12",  "green",  [] ],
+    [ "sensor_hand:ECHO", "esp:D14",  "yellow", [] ],
+
+    [ "sensor_bin:VCC",   "esp:5V",   "red",    [] ],
+    [ "sensor_bin:GND",   "esp:GND",  "black",  [] ],
+    [ "sensor_bin:TRIG",  "esp:D27",  "green",  [] ],
+    [ "sensor_bin:ECHO",  "esp:D26",  "yellow", [] ],
+
+    [ "servo:V+",  "esp:5V",  "red",    [] ],
+    [ "servo:GND", "esp:GND", "black",  [] ],
+    [ "servo:PWM", "esp:D18", "orange", [] ],
+
+    [ "buzzer:2",  "esp:D5",  "purple", [] ],
+    [ "buzzer:1",  "esp:GND", "black",  [] ],
+
+    [ "led_green:A", "esp:D4", "green",  [] ],
+    [ "led_green:C", "r1:2",   "black",  [] ],
+    [ "r1:1",        "esp:GND","black",  [] ],
+
+    [ "led_red:A", "esp:D2",  "red",    [] ],
+    [ "led_red:C", "r2:2",    "black",  [] ],
+    [ "r2:1",      "esp:GND", "black",  [] ],
+
+    [ "lcd:VCC", "esp:5V",   "red",   [] ],
+    [ "lcd:GND", "esp:GND",  "black", [] ],
+    [ "lcd:SDA", "esp:D21",  "blue",  [] ],
+    [ "lcd:SCL", "esp:D22",  "white", [] ]
+  ],
+  "dependencies": {}
+}
