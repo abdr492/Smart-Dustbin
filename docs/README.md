@@ -125,15 +125,6 @@ Smart-Dustbin/
 
 ---
 
-## 📸 Screenshots Checklist (for GitHub)
-- [ ] Wokwi simulation running (servo rotating)
-- [ ] Serial Monitor output showing sensor readings
-- [ ] Web dashboard with fill gauge animated
-- [ ] Circuit breadboard photo (if real hardware)
-- [ ] LED indicators (green/red) in action
-
----
-
 ## 🛠️ Tech Stack
 | Technology | Version | Use |
 |------------|---------|-----|
